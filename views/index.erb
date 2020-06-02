@@ -6,14 +6,6 @@
 	<title>Document</title>
 </head>
 <body>
-<% unless session[:user] %>
-	<a href="/signin">log in</a><br>
-	<a href="/signup">sign up</a><br>
-	<h2>未ログイン</h2>
-<% else %>
-	<a href="/signout">log out</a>
-	<h2><%= User.find(session[:user]).name %>としてログイン</h2>
-<% end %>
 
 </body>
 </html>

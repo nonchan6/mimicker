@@ -2,9 +2,25 @@
 <html long="ja">
 <head>
   <meta charset="UTF-8">
-  <title>タイトル</title>
+  <title>mimicker</title>
 </head>
 <body>
-  <%= yield %>
+  <nav>
+    <div>
+      <div>
+        <a href="/">mimicker</a>
+      </div>
+      <ul>
+      <% if !current_user.nil? %>
+        <li>Welcome <%= current_user.name %></li>
+        <li><a href="/signout">log out</li>
+      <% else %>
+        <li><a href="/signin">sign in</a></li>
+        <li><a href="/signup">sign up</a></li>
+      <% end %>
+      <ul>
+    </div>
+  </nav>
+    <%= yield %>
 </body>
 </html>
