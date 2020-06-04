@@ -13,6 +13,16 @@ helpers do
   end
 end
 
+def person
+  Person.find_or_create_by(name: params[:person_name])
+end
+
+def face
+  Face.find_or_create_by(body: params[:characteristic])
+end
+
+
+
 get '/' do
   if current_user.nil?
     @posts = Post.none
@@ -60,18 +70,14 @@ get '/new' do
 end
 
 post '/new' do
-  person = Person.find_by(name: params[:person_name])
-  if person.nil?
-    Person.create(
-      name: params[:person_name]
-    )
-  end
-
   current_user.posts.create(
     person_id: person.id,
-    user_id: session[:user],
     summary: params[:summary],
     body: params[:body]
   )
+
+  post = current_user.posts.last
+  post.faces.create(body: params[:characteristic])
+
   redirect '/'
 end
