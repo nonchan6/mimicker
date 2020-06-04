@@ -12,4 +12,33 @@ class User < ActiveRecord::Base
     format: { with: /\A\w+\z/ }
   validates :password,
     length: {in: 5..10}
+  has_many :posts
+  has_many :likes
+end
+
+class Post < ActiveRecord::Base
+  belongs_to :user
+  belongs_to :person
+  has_many :likes
+  has_many :face_posts
+  has_many :faces, through: :face_posts
+end
+
+class Person < ActiveRecord::Base
+  has_many :posts
+end
+
+class Likes < ActiveRecord::Base
+  belongs_to :post
+  belongs_to :user
+end
+
+class Face < ActiveRecord::Base
+  has_many :face_posts
+  has_many :posts, through: :face_posts
+end
+
+class FacePosts < ActiveRecord::Base
+  belongs_to :post
+  belongs_to :face
 end

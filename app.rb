@@ -14,6 +14,11 @@ helpers do
 end
 
 get '/' do
+  if current_user.nil?
+    @posts = Post.none
+  else
+    @posts = current_user.posts
+  end
   erb :index
 end
 
@@ -47,5 +52,26 @@ end
 
 get '/signout' do
   session[:user] = nil
+  redirect '/'
+end
+
+get '/new' do
+  erb :new
+end
+
+post '/new' do
+  person = Person.find_by(name: params[:person_name])
+  if person.nil?
+    Person.create(
+      name: params[:person_name]
+    )
+  end
+
+  current_user.posts.create(
+    person_id: person.id,
+    user_id: session[:user],
+    summary: params[:summary],
+    body: params[:body]
+  )
   redirect '/'
 end

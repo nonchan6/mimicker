@@ -6,6 +6,20 @@
 	<title>Document</title>
 </head>
 <body>
+	<% unless session[:user] %>
+		<a href="/signin">login</a><br>
+		<a href="/signup">signup</a>
+		<h2>未ログイン</h2>
+	<% else %>
+		<a href="/signout">signout</a>
+		<h2>Welcome <%= current_user.name %></h2>
+	<% end %>
 
+	<a href="/new">new post</a><br>
+
+	<% Post.all.each do |post| %>
+		<%= post.summary %><br>
+		<%= post.body %><br>
+	<% end %>
 </body>
 </html>
