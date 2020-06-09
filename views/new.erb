@@ -1,5 +1,5 @@
 <div>
-  <form action="/new" method="post">
+  <form action="/new" method="post" enctype="multipart/form-data">
     <div>
       <div>
         <p>
@@ -14,6 +14,9 @@
         <p>
           procedure：<input type="text" name="body">
         </p>
+      </div>
+      <div>
+        <p><input type="file" name="file"></p>
       </div>
       <div>
         <input type="submit" value="投稿">

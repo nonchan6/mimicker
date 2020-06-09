@@ -13,13 +13,26 @@
 	<% else %>
 		<a href="/signout">signout</a>
 		<h2>Welcome <%= current_user.name %></h2>
-	<% end %>
 
 	<a href="/new">new post</a><br>
+	<a href="/search">search</a><br>
+	<a href="/mypage/<%= session[:user] %>">mypage</a><br>
 
-	<% Post.all.each do |post| %>
-		<%= post.summary %><br>
-		<%= post.body %><br>
+	<% @all_posts.each do |all_post| %>
+		<li><%= Person.find_by(id: all_post.person_id).name %></li>
+		<%= User.find_by(id: all_post.user_id).name %><br>
+		<% unless all_post.image.empty? %>
+			<p><img src="<%= all_post.image %>"></p>
+		<% end %>
+		<% all_post.face_posts.each do |face_post| %>
+			<%= Face.find_by(id: face_post.face_id).body %><br>
+		<% end %>
+		<%= all_post.summary %><br>
+		<%= all_post.body %><br>
+		<form action="/good/<%= all_post.id %>" method="post">
+			<input type="submit" value="LIKE">
+		</form>
 	<% end %>
+<% end %>
 </body>
 </html>

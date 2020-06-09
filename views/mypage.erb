@@ -1,0 +1,21 @@
+<p><%= current_user.name %></p>
+<p>投稿一覧</p>
+<p><a href="/mypage/<%= current_user.id %>/like">いいね</a></p>
+<p>新規投稿</p>
+
+<% @posts.each do |post| %>
+		<li><%= Person.find_by(id: post.person_id).name %></li>
+		<%= User.find_by(id: post.user_id).name %><br>
+		<% unless post.image.empty? %>
+			<p><img src="<%= post.image %>"></p>
+		<% end %>
+		<% post.face_posts.each do |face_post| %>
+			<%= Face.find_by(id: face_post.face_id).body %><br>
+		<% end %>
+		<%= post.summary %><br>
+		<%= post.body %><br>
+		<form action="/delete/<%= post.id %>" method="post">
+			<input type="submit" value="DELETE">
+		</form>
+		<a href="/edit/<%= post.id %>">EDIT</a>
+<% end %>

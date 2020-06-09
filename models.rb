@@ -28,7 +28,7 @@ class Person < ActiveRecord::Base
   has_many :posts
 end
 
-class Likes < ActiveRecord::Base
+class Like < ActiveRecord::Base
   belongs_to :post
   belongs_to :user
 end
@@ -38,7 +38,7 @@ class Face < ActiveRecord::Base
   has_many :posts, through: :face_posts
 end
 
-class FacePosts < ActiveRecord::Base
+class FacePost < ActiveRecord::Base
   belongs_to :post
   belongs_to :face
 end
