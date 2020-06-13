@@ -1,12 +1,37 @@
-<h1><%=  @person_posts_name %></h1>
-<% @person_posts.each do |person_post| %>
-  <p><%= User.find_by(id: person_post.user_id).name%></p>
-  <% unless person_post.image.empty? %>
-		<p><img src="<%= person_post.image %>"></p>
-  <% end %>
-  <% person_post.face_posts.each do |face_post| %>
-			<a href="/hashtag/<%= face_post.face_id %>">#<%= Face.find_by(id: face_post.face_id).body %></a>
-	<% end %>
-  <p><%= person_post.summary %></p>
-  <p><%= person_post.body %></p>
-<% end %>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>RESULT</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+  <h1><%=  @person_posts_name %></h1>
+    <div class="container-fluid">
+		  <div class="row d-flex justify-content-center">
+        <% @person_posts.each do |person_post| %>
+          <div class="card col-lg-6 mb-2 mx-5">
+					  <div class="card-body">
+            <p><%= User.find_by(id: person_post.user_id).name%></p>
+            <% unless person_post.image.empty? %>
+		          <p><img class="img-fluid rounded" src="<%= person_post.image %>"></p>
+            <% end %>
+            <% person_post.face_posts.each do |face_post| %>
+			        <a href="/hashtag/<%= face_post.face_id %>">#<%= Face.find_by(id: face_post.face_id).body %></a>
+	          <% end %>
+            <p><%= person_post.summary %></p>
+            <p><%= person_post.body %></p>
+            <div class="d-flex justify-content-end align-items-center mt-3">
+              <span class="card-footer-text"><%= person_post.likes.size %></span>
+						  <form action="/good/<%= person_post.id %>" method="post">
+							  <input type="submit" value="LIKE" class="btn card-footer-text">
+						  </form>
+            </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+</body>
+</html>

@@ -151,22 +151,13 @@ get '/edit/:id' do
 end
 
 post '/renew/:id' do
-  img_url = ''
-  if params[:file]
-    img = params[:file]
-    tempfile = img[:tempfile]
-    upload = Cloudinary::Uploader.upload(tempfile.path)
-    img_url = upload['url']
-  end
-
   post = Post.find(params[:id])
   edit_person = Person.find_or_create_by(name: params[:name])
 
   post.update({
     person_id: edit_person.id,
     summary: params[:summary],
-    body: params[:body],
-    image: img_url
+    body: params[:body]
   })
 
   faces  = params[:characteristic].scan(/[#＃][\w\p{Han}ぁ-ヶｦ-ﾟー]+/)

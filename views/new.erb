@@ -1,27 +1,24 @@
-<div>
-  <h1>New Post</h1>
-  <form action="/new" method="post" enctype="multipart/form-data">
-    <div>
-      <div>
-        <p>
-          name：<input type="text" name="person_name">
-        </p>
-        <p>
-          characteristic：<input type="text" name="characteristic">
-        </p>
-        <p>
-          make up summary：<input type="text" name="summary">
-        </p>
-        <p>
-          procedure：<input type="text" name="body">
-        </p>
-      </div>
-      <div>
-        <p><input type="file" name="file"></p>
-      </div>
-      <div>
-        <input type="submit" value="投稿">
-      </div>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>NEWPOST</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+  <div class="card col-lg-6 mx-auto mt-5">
+    <div class="card-body">
+      <h1>New Post</h1>
+      <form action="/new" method="post" enctype="multipart/form-data">
+        <p>name：<input type="text" name="person_name" class="form-control"></p>
+        <p>characteristic：<input type="text" name="characteristic" class="form-control"></p>
+        <p>make up summary：<input type="text" name="summary" class="form-control"></p>
+        <p>procedure：<input type="text" name="body" class="form-control"></p>
+        <p><input type="file" name="file" class="form-control-file"></p>
+        <p><input type="submit" value="POST" class="btn btn-dark float-right"></p>
+      </form>
     </div>
-  </form>
-<div>
+  </div>
+</body>
+</html>

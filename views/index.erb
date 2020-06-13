@@ -3,7 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>mimicker</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
 	<% unless session[:user] %>
@@ -11,29 +12,40 @@
 		<a href="/signup">signup</a>
 		<h2>未ログイン</h2>
 	<% else %>
-		<a href="/signout">signout</a>
+	<nav>
+		<p><a href="/signout">signout</a></p>
+		<p><a href="/new">new post</a></p>
+		<p><a href="/search">search</a></p>
+		<p><a href="/mypage/<%= session[:user] %>">mypage</a></p>
+	</nav>
 		<h2>Welcome <%= current_user.name %></h2>
 
-	<a href="/new">new post</a><br>
-	<a href="/search">search</a><br>
-	<a href="/mypage/<%= session[:user] %>">mypage</a><br>
-
-	<% @all_posts.each do |all_post| %>
-		<li><%= Person.find_by(id: all_post.person_id).name %></li>
-		<p><%= User.find_by(id: all_post.user_id).name %></p>
-		<% unless all_post.image.empty? %>
-			<p><img src="<%= all_post.image %>"></p>
-		<% end %>
-		<% all_post.face_posts.each do |face_post| %>
-			<a href="/hashtag/<%= face_post.face_id %>">#<%= Face.find_by(id: face_post.face_id).body %></a>
-		<% end %>
-		<p><%= all_post.summary %></p>
-		<p><%= all_post.body %></p>
-		<span><%= all_post.likes.size %></span>
-		<form action="/good/<%= all_post.id %>" method="post">
-			<input type="submit" value="LIKE">
-		</form>
+		<div class="container-fluid">
+			<div class="row d-flex justify-content-center">
+					<% @all_posts.each do |all_post| %>
+					 <div class="card col-lg-6 mb-2 mx-5">
+						<div class="card-body">
+							<li><%= Person.find_by(id: all_post.person_id).name %></li>
+							<p><%= User.find_by(id: all_post.user_id).name %></p>
+							<% unless all_post.image.empty? %>
+								<p><img class="img-fluid rounded" src="<%= all_post.image %>"></p>
+							<% end %>
+							<% all_post.face_posts.each do |face_post| %>
+								<a href="/hashtag/<%= face_post.face_id %>">#<%= Face.find_by(id: face_post.face_id).body %></a>
+							<% end %>
+							<p><%= all_post.summary %></p>
+							<p><%= all_post.body %></p>
+							<div class="d-flex justify-content-end align-items-center mt-3">
+								<span class="card-footer-text"><%= all_post.likes.size %></span>
+								<form action="/good/<%= all_post.id %>" method="post">
+									<input type="submit" value="LIKE" class="btn card-footer-text">
+								</form>
+							</div>
+						</div>
+					 </div>
+					<% end %>
+			</div>
+		</div>
 	<% end %>
-<% end %>
 </body>
 </html>

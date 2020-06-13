@@ -1,22 +1,45 @@
-<h1>My Page</h1>
-<p><%= current_user.name %></p>
-<p>投稿一覧</p>
-<p><a href="/mypage/<%= current_user.id %>/like">いいね</a></p>
-<p>新規投稿</p>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>EDIT</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+	<h1>My Page</h1>
+	<p><%= current_user.name %></p>
+	<p><a href="/mypage/<%= current_user.id %>/like">いいね</a></p>
 
-<% @posts.each do |post| %>
-		<li><%= Person.find_by(id: post.person_id).name %></li>
-		<%= User.find_by(id: post.user_id).name %><br>
-		<% unless post.image.empty? %>
-			<p><img src="<%= post.image %>"></p>
-		<% end %>
-		<% post.face_posts.each do |face_post| %>
-			<a href="/hashtag/<%= face_post.face_id %>">#<%= Face.find_by(id: face_post.face_id).body %></a>
-		<% end %>
-		<p><%= post.summary %></p>
-		<p><%= post.body %></p>
-		<form action="/delete/<%= post.id %>" method="post">
-			<input type="submit" value="DELETE">
-		</form>
-		<a href="/edit/<%= post.id %>">EDIT</a>
-<% end %>
+	<div class="container-fluid">
+			<div class="row d-flex justify-content-center">
+      	<% @posts.each do |post| %>
+					<div class="card col-lg-6 mb-2 mx-5">
+						<div class="card-body">
+							<li><%= Person.find_by(id: post.person_id).name %></li>
+							<%= User.find_by(id: post.user_id).name %><br>
+							<% unless post.image.empty? %>
+								<p><img class="img-fluid rounded" src="<%= post.image %>"></p>
+							<% end %>
+							<% post.face_posts.each do |face_post| %>
+								<a href="/hashtag/<%= face_post.face_id %>">#<%= Face.find_by(id: face_post.face_id).body %></a>
+							<% end %>
+							<p><%= post.summary %></p>
+							<p><%= post.body %></p>
+							<div class="d-flex justify-content-end align-items-center mt-3">
+								<span class="card-footer-text"><%= post.likes.size %></span>
+								<form action="/good/<%= post.id %>" method="post">
+										<input type="submit" value="LIKE" class="btn card-footer-text">
+								</form>
+								<form action="/delete/<%= post.id %>" method="post">
+									<input type="submit" value="DELETE" class="btn card-footer-text">
+								</form>
+								<a href="/edit/<%= post.id %>" class="btn card-footer-text">EDIT</a>
+							</div>
+						</div>
+					</div>
+				<% end %>
+			</div>
+		</div>
+</body>
+</html>
