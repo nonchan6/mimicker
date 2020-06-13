@@ -1,3 +1,4 @@
+<h1>My Page</h1>
 <p><%= current_user.name %></p>
 <p>投稿一覧</p>
 <p><a href="/mypage/<%= current_user.id %>/like">いいね</a></p>
@@ -10,10 +11,10 @@
 			<p><img src="<%= post.image %>"></p>
 		<% end %>
 		<% post.face_posts.each do |face_post| %>
-			<%= Face.find_by(id: face_post.face_id).body %><br>
+			<a href="/hashtag/<%= face_post.face_id %>">#<%= Face.find_by(id: face_post.face_id).body %></a>
 		<% end %>
-		<%= post.summary %><br>
-		<%= post.body %><br>
+		<p><%= post.summary %></p>
+		<p><%= post.body %></p>
 		<form action="/delete/<%= post.id %>" method="post">
 			<input type="submit" value="DELETE">
 		</form>

@@ -1,0 +1,13 @@
+<h1>#<%= @face.body %></h1>
+<% @face_posts.each do |face_post| %>
+  <li><%= Person.find(Post.find(face_post.post_id).person_id).name %></li>
+  <p><%= User.find(Post.find(face_post.post_id).user_id).name %></p>
+  <% unless Post.find(face_post.post_id).image.empty? %>
+			<p><img src="<%= Post.find(face_post.post_id).image %>"></p>
+		<% end %>
+  <% Post.find(face_post.post_id).face_posts.each do |face| %>
+    <a href="/hashtag/<%= face.face_id %>">#<%= Face.find(face.face_id).body%></a>
+  <% end %>
+  <p><%= Post.find(face_post.post_id).summary %></p>
+  <p><%= Post.find(face_post.post_id).body %></p>
+<% end %>

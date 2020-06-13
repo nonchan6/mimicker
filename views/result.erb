@@ -1,13 +1,11 @@
-<%=  @person_posts_name %>
-
-
+<h1><%=  @person_posts_name %></h1>
 <% @person_posts.each do |person_post| %>
   <p><%= User.find_by(id: person_post.user_id).name%></p>
   <% unless person_post.image.empty? %>
 		<p><img src="<%= person_post.image %>"></p>
   <% end %>
   <% person_post.face_posts.each do |face_post| %>
-			<%= Face.find_by(id: face_post.face_id).body %><br>
+			<a href="/hashtag/<%= face_post.face_id %>">#<%= Face.find_by(id: face_post.face_id).body %></a>
 	<% end %>
   <p><%= person_post.summary %></p>
   <p><%= person_post.body %></p>

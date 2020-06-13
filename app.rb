@@ -96,9 +96,19 @@ post '/new' do
     image: img_url
   })
 
-  post = current_user.posts.last
-  post.faces.create(body: params[:characteristic])
 
+    post = current_user.posts.last
+    faces  = params[:characteristic].scan(/[#＃][\w\p{Han}ぁ-ヶｦ-ﾟー]+/)
+
+    faces.uniq.map do |face|
+      face_table = Face.find_or_create_by(body: face.downcase.delete('#'))
+      # 配列の要素からFaceテーブルにfind_or_create_byして変数に突っ込む。
+      # 変数を使ってFace_postのレコードを作る
+      FacePost.create({
+        post_id: post.id,
+        face_id: face_table.id
+      })
+    end
 
   redirect '/'
 end
@@ -120,9 +130,12 @@ end
 
 post '/good/:id' do
   post = Post.find(params[:id])
-  like = post.likes.create({
-    user_id: current_user.id
-  })
+
+  if current_user.likes.find_by(post_id: post.id).nil?
+    post.likes.create({
+      user_id: current_user.id
+    })
+  end
 
   redirect '/'
 end
@@ -138,18 +151,48 @@ get '/edit/:id' do
 end
 
 post '/renew/:id' do
+  img_url = ''
+  if params[:file]
+    img = params[:file]
+    tempfile = img[:tempfile]
+    upload = Cloudinary::Uploader.upload(tempfile.path)
+    img_url = upload['url']
+  end
+
   post = Post.find(params[:id])
-  post.update(body: params[:body])
+  edit_person = Person.find_or_create_by(name: params[:name])
+
+  post.update({
+    person_id: edit_person.id,
+    summary: params[:summary],
+    body: params[:body],
+    image: img_url
+  })
+
+  faces  = params[:characteristic].scan(/[#＃][\w\p{Han}ぁ-ヶｦ-ﾟー]+/)
+
+  post.face_posts.each do |face_post|
+    face_post.destroy
+  end
+
+  faces.uniq.map do |face|
+    face_table = Face.find_or_create_by(body: face.downcase.delete('#'))
+    FacePost.create({
+        post_id: post.id,
+        face_id: face_table.id
+    })
+  end
+
   redirect '/mypage/:id'
 end
 
 get "/mypage/:id/like" do
-=begin
-  if Like.find_by(user_id: params[:id]).nil?
-    @like_posts = Post.none
-  else
-    @like_posts = Post.find(Like.find_by(user_id: params[:id]).post_id)
-  end
-=end
+  @user_likes = Like.where(user_id: params[:id]).order('id desc')
   erb :mylike
+end
+
+get "/hashtag/:id" do
+  @face = Face.find(params[:id])
+  @face_posts = FacePost.where(face_id: params[:id]).order('id desc')
+  erb :hashtag
 end

@@ -19,8 +19,8 @@ end
 class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :person
-  has_many :likes
-  has_many :face_posts
+  has_many :likes, dependent: :destroy
+  has_many :face_posts, dependent: :destroy
   has_many :faces, through: :face_posts
 end
 
@@ -29,7 +29,7 @@ class Person < ActiveRecord::Base
 end
 
 class Like < ActiveRecord::Base
-  belongs_to :post
+  belongs_to :post, counter_cache: true
   belongs_to :user
 end
 

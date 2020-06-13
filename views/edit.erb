@@ -1,4 +1,9 @@
-<form action="/renew/<%= @post.id %>" method="post">
-  <p>body:<input type="text" name="body" value="<%= @post.body%>"></p>
+<h1>Edit</h1>
+<form action="/renew/<%= @post.id %>" method="post" enctype="multipart/form-data">
+  <p>name:<input type="text" name="name" value="<%= Person.find(@post.person_id).name %>"></p>
+  <p>characteristic:<input type="text" name="characteristic" value="<% @post.face_posts.each do |face_post|%>#<%= Face.find(face_post.face_id).body %><% end %>"></p>
+  <p>make up summary:<input type="text" name="summary" value="<%= @post.summary%>"></p>
+  <p>procedure:<input type="text" name="body" value="<%= @post.body%>"></p>
+  <p><input type="file" name="file"></p>
   <input type="submit" value="編集完了">
 </form>
