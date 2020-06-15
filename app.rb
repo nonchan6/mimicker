@@ -20,6 +20,12 @@ before do
     config.api_key = ENV['CLOUDINARY_API_KEY']
     config.api_secret = ENV['CLOUDINARY_API_SECRET']
   end
+
+  if session[:user].nil?
+    unless request.path == "/signup" || request.path == "/signin" || request.path == "/select"
+      redirect "/select"
+    end
+  end
 end
 
 def person
@@ -41,6 +47,10 @@ get '/' do
   @all_posts = Post.all.order('id desc')
 
   erb :index
+end
+
+get '/select' do
+  erb :select
 end
 
 get '/signin' do
@@ -89,10 +99,14 @@ post '/new' do
     img_url = upload['url']
   end
 
+  body = params[:body]
+
+  body = body.gsub(/\s/,'<br>')
+
   current_user.posts.create({
     person_id: person.id,
     summary: params[:summary],
-    body: params[:body],
+    body: body,
     image: img_url
   })
 
@@ -135,6 +149,8 @@ post '/good/:id' do
     post.likes.create({
       user_id: current_user.id
     })
+  else
+    post.likes.find_by(user_id: current_user.id).destroy
   end
 
   redirect '/'

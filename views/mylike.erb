@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>EDIT</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-</head>
 <body>
   <h1>いいね一覧</h1>
 
   <div class="container-fluid">
 	  <div class="row d-flex justify-content-center">
       <% @user_likes.each do |user_like| %>
-        <div class="card col-lg-6 mb-2 mx-5">
+        <div class="card col-lg-3 mb-4 mx-5">
 				  <div class="card-body">
             <li><%= Person.find(Post.find(user_like.post_id).person_id).name %></li>
             <p><%= User.find(Post.find(user_like.post_id).user_id).name %></p>
@@ -27,7 +19,7 @@
             <div class="d-flex justify-content-end align-items-center mt-3">
               <span class="card-footer-text"><%= Post.find(user_like.post_id).likes.size %></span>
               <form action="/good/<%= Post.find(user_like.post_id).id %>" method="post">
-                <input type="submit" value="LIKE" class="btn card-footer-text">
+                <input type="submit" value="&#xf004;" class="btn card-footer-text">
               </form>
             </div>
           </div>
@@ -36,4 +28,3 @@
     </div>
   </div>
 </body>
-</html>

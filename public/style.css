@@ -1,0 +1,30 @@
+body {
+  background-color: #9fe8fa;
+  font-family: FontAwesome;
+}
+
+.top {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 5vh;
+}
+
+.content {
+  background-color: #fff4e0;
+}
+
+header {
+  background-color: #26baee;
+}
+
+p {
+  font-family: 'Rubik', sans-serif;
+  color: #272343;
+}
+
+.card-color {
+  border-color: #bae8e8;
+}
+
+.icon {
+  font-size: 4.5vh;
+}

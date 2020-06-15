@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>EDIT</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-</head>
 <body>
 	<h1>My Page</h1>
 	<p><%= current_user.name %></p>
@@ -14,9 +6,15 @@
 	<div class="container-fluid">
 			<div class="row d-flex justify-content-center">
       	<% @posts.each do |post| %>
-					<div class="card col-lg-6 mb-2 mx-5">
+					<div class="card col-lg-3 mb-4 mx-5">
 						<div class="card-body">
-							<li><%= Person.find_by(id: post.person_id).name %></li>
+							<div class="d-flex justify-content-end align-items-center mt-3">
+								<form action="/delete/<%= post.id %>" method="post">
+									<input type="submit" value="&#xf2ed;" class="btn card-footer-text">
+								</form>
+								<a href="/edit/<%= post.id %>" class="btn card-footer-text"><i class="far fa-edit"></i></a>
+							</div>
+							<p><%= Person.find_by(id: post.person_id).name %></p>
 							<%= User.find_by(id: post.user_id).name %><br>
 							<% unless post.image.empty? %>
 								<p><img class="img-fluid rounded" src="<%= post.image %>"></p>
@@ -29,12 +27,8 @@
 							<div class="d-flex justify-content-end align-items-center mt-3">
 								<span class="card-footer-text"><%= post.likes.size %></span>
 								<form action="/good/<%= post.id %>" method="post">
-										<input type="submit" value="LIKE" class="btn card-footer-text">
+										<input type="submit" value="&#xf004;" class="btn card-footer-text">
 								</form>
-								<form action="/delete/<%= post.id %>" method="post">
-									<input type="submit" value="DELETE" class="btn card-footer-text">
-								</form>
-								<a href="/edit/<%= post.id %>" class="btn card-footer-text">EDIT</a>
 							</div>
 						</div>
 					</div>
@@ -42,4 +36,3 @@
 			</div>
 		</div>
 </body>
-</html>
