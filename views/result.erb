@@ -1,4 +1,7 @@
 <body>
+  <% if @person_posts.none? %>
+    <p class="nothing text-center mt-5">投稿はありません</p>
+  <% else %>
   <h1 class="text-center m-5 top_person"><%=  @person_posts_name %></h1>
     <div class="container-fluid">
 		  <div class="row d-flex justify-content-center">
@@ -38,4 +41,5 @@
         <% end %>
       </div>
     </div>
+  <% end %>
 </body>

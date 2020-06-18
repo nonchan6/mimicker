@@ -1,14 +1,12 @@
-<div>
-  <form action="/signup" method="post">
-    <div>
-      <div>
-        <input name="name" placeholder="name"><br>
-        <input name="password" placeholder="password"><br>
-        <input name="password_confirmation" placeholder="password confirmation"><br>
-      </div>
-      <div>
-        <input type="submit" value="sign up">
-      </div>
-    </div>
-  </form>
+<div class="position-absolute w-100 mt-5 d-flex align-items-center justify-content-center">
+  <div class="row d-flex align-items-center justify-content-center">
+    <form action="/signup" method="post">
+      <p class="mb-0"><input name="name" placeholder="name"></p>
+      <p class="like">※半角英数字</p>
+      <p class="mb-0"><input name="password" placeholder="password"></p>
+        <p class="like">※半角英数字 5文字以上10文字以内</p>
+      <p><input name="password_confirmation" placeholder="password confirmation"><p>
+      <p><input type="submit" value="sign up" class="btn login"><p>
+    </form>
+  </div>
 </div>

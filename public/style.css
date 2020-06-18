@@ -98,3 +98,35 @@ button{
   font-family: 'Nunito', sans-serif;
   color: #393e46;
 }
+
+.select {
+  background: #ff9d76;
+  border-color:  #ff9d76;
+  color: #fffde1;
+}
+
+.select:hover {
+  background: #ff9d76;
+  border-color:  #ff9d76;
+  color: #fffde1;
+}
+
+.login {
+  background: #ff9d76;
+  border-color:  #ff9d76;
+  font-family: 'Nunito', sans-serif;
+  color: #fffde1;
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+.login:hover {
+  background: #ff9d76;
+  border-color:  #ff9d76;
+  color: #fffde1;
+}
+
+.nothing {
+  color: #393e46;
+  font-size: 4.5vh;
+}
