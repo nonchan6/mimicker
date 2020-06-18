@@ -16,9 +16,9 @@ end
 before do
   Dotenv.load
   Cloudinary.config do |config|
-    config.cloud_name = ENV['CLOUD_NAME']
-    config.api_key = ENV['CLOUDINARY_API_KEY']
-    config.api_secret = ENV['CLOUDINARY_API_SECRET']
+    config.cloud_name = "dmy4qjhma"
+    config.api_key = "dmy4qjhma"
+    config.api_secret = "Vqm_2pw-J2iUNblzTY0F6IufDP0"
   end
 
   if session[:user].nil?
