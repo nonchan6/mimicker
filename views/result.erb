@@ -1,24 +1,37 @@
 <body>
-  <h1><%=  @person_posts_name %></h1>
+  <h1 class="text-center m-5 top_person"><%=  @person_posts_name %></h1>
     <div class="container-fluid">
 		  <div class="row d-flex justify-content-center">
         <% @person_posts.each do |person_post| %>
-          <div class="card col-lg-3 mb-4 mx-5">
+          <div class="card col-lg-3 mb-4 mx-4 content card-color">
 					  <div class="card-body">
-            <p><%= User.find_by(id: person_post.user_id).name%></p>
+            <p class="user item"><%= User.find_by(id: person_post.user_id).name%></p>
             <% unless person_post.image.empty? %>
 		          <p><img class="img-fluid rounded" src="<%= person_post.image %>"></p>
             <% end %>
+            <p class="mb-0 item parts">characteristic : </p>
             <% person_post.face_posts.each do |face_post| %>
 			        <a href="/hashtag/<%= face_post.face_id %>">#<%= Face.find_by(id: face_post.face_id).body %></a>
 	          <% end %>
-            <p><%= person_post.summary %></p>
-            <p><%= person_post.body %></p>
+            <p class="mt-3 mb-0 item parts">point：</p>
+            <p class="parts"><%= person_post.summary %></p>
+            <a href="/post/<%= person_post.id %>" class="process">more</a>
             <div class="d-flex justify-content-end align-items-center mt-3">
-              <span class="card-footer-text"><%= person_post.likes.size %></span>
-						  <form action="/good/<%= person_post.id %>" method="post">
-							  <input type="submit" value="&#xf004;" class="btn card-footer-text">
-						  </form>
+              <span class="like_label btn card-footer-text like_size" data-id="<%= person_post.id %>" ><%= person_post.likes.size %></span>
+									<button class="like_button" data-id="<%= person_post.id %>"><i class="far fa-heart like"></i></button>
+								<script>
+									$(document).on("click", ".like_button", function(){
+										var id = $(this).data("id");
+
+										$.ajax({
+											url: "/good/" + id,
+											method: "POST",
+											success: function(n) {
+												$(".like_label[data-id=" + id + "]").text(n);
+											}
+										});
+									});
+								</script>
             </div>
             </div>
           </div>

@@ -132,8 +132,13 @@ get '/search' do
 end
 
 post '/search' do
-  @person_posts = Post.where(person_id: Person.find_by(name: params[:person]))
-  @person_posts_name = Person.find_by(name: params[:person]).name
+  if Person.find_by(name: params[:person]).nil? ||Post.find_by(person_id: Person.find_by(name: params[:person]).id).nil?
+    @person_posts = Post.none
+  else
+    @person_posts = Post.where(person_id: Person.find_by(name: params[:person])).order('id desc')
+    @person_posts_name = Person.find_by(name: params[:person]).name
+  end
+
   erb :result
 end
 
@@ -150,10 +155,10 @@ post '/good/:id' do
       user_id: current_user.id
     })
   else
-    post.likes.find_by(user_id: current_user.id).destroy
+    post.likes.find_by(user_id: current_user).destroy
   end
 
-  redirect '/'
+  post.likes.size.to_s
 end
 
 post '/delete/:id' do
@@ -202,4 +207,9 @@ get "/hashtag/:id" do
   @face = Face.find(params[:id])
   @face_posts = FacePost.where(face_id: params[:id]).order('id desc')
   erb :hashtag
+end
+
+get "/post/:id" do
+  @post = Post.find(params[:id])
+  erb :post
 end

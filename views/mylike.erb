@@ -1,25 +1,38 @@
 <body>
-  <h1>いいね一覧</h1>
-
+  <h1 class="text-center m-5 top_person">いいね一覧</h1>
   <div class="container-fluid">
 	  <div class="row d-flex justify-content-center">
       <% @user_likes.each do |user_like| %>
-        <div class="card col-lg-3 mb-4 mx-5">
+        <div class="card col-lg-3 mb-4 mx-4 content card-color">
 				  <div class="card-body">
-            <li><%= Person.find(Post.find(user_like.post_id).person_id).name %></li>
-            <p><%= User.find(Post.find(user_like.post_id).user_id).name %></p>
+            <p class="person mb-0"><%= Person.find(Post.find(user_like.post_id).person_id).name %></p>
+            <p class="user item">by <%= User.find(Post.find(user_like.post_id).user_id).name %></p>
             <% unless Post.find(user_like.post_id).image.empty? %>
 			        <p><img class="img-fluid rounded" src="<%= Post.find(user_like.post_id).image %>"></p>
 	          <% end %>
+            <p class="mb-0 item parts">characteristic : </p>
             <% Post.find(user_like.post_id).face_posts.each do |face_post| %>
               <a href="/hashtag/<%= face_post.face_id %>">#<%= Face.find_by(id: face_post.face_id).body %></a>
             <% end %>
+            <p class="mt-3 mb-0 item parts">point：</p>
             <p><%= Post.find(user_like.post_id).summary %></p>
-            <p><%= Post.find(user_like.post_id).body %></p>
+            <a href="/post/<%= Post.find(user_like.post_id).id %>" class="process">more</a>
             <div class="d-flex justify-content-end align-items-center mt-3">
-              <span class="card-footer-text"><%= Post.find(user_like.post_id).likes.size %></span>
-              <form action="/good/<%= Post.find(user_like.post_id).id %>" method="post">
-                <input type="submit" value="&#xf004;" class="btn card-footer-text">
+              <span class="like_label btn card-footer-text like" data-id="<%= Post.find(user_like.post_id).id %>" ><%= Post.find(user_like.post_id).likes.size %></span>
+									<button class="like_button" data-id="<%= Post.find(user_like.post_id).id %>"><i class="far fa-heart like"></i></button>
+								<script>
+									$(document).on("click", ".like_button", function(){
+										var id = $(this).data("id");
+
+										$.ajax({
+											url: "/good/" + id,
+											method: "POST",
+											success: function(n) {
+												$(".like_label[data-id=" + id + "]").text(n);
+											}
+										});
+									});
+								</script>
               </form>
             </div>
           </div>

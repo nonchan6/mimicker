@@ -1,0 +1,40 @@
+<body>
+  <div class="container-fluid">
+		<div class="row d-flex justify-content-center">
+      <div class="card col-lg-6 mb-4 mx-4 content card-color">
+				<div class="card-body">
+          <p class="person mb-0"><%= Person.find(@post.person_id).name %></p>
+          <p class="user item">by <%= User.find(@post.user_id).name %></p>
+          <% unless @post.image.empty? %>
+		        <p><img class="img-fluid rounded" src="<%= @post.image %>"></p>
+          <% end %>
+          <p class="mb-0 item parts">characteristic：</p>
+          <% @post.face_posts.each do |face_post| %>
+            <a href="/hashtag/<%= face_post.face_id %>"">#<%= Face.find(face_post.face_id).body %></a>
+          <% end %>
+          <p class="mt-3 mb-0 item parts"">point：</p>
+          <p><%= @post.summary %></p>
+          <p class="mt-3 mb-0 item parts">process：<p>
+          <p class="parts"><%= @post.body %></p>
+          <div class="d-flex justify-content-end align-items-center mt-3">
+						<span class="like_label btn card-footer-text like" data-id="<%= @post.id %>" ><%= @post.likes.size %></span>
+						<button class="like_button" data-id="<%= @post.id %>"><i class="far fa-heart like"></i></button>
+						<script>
+							$(document).on("click", ".like_button", function(){
+								var id = $(this).data("id");
+
+								$.ajax({
+									url: "/good/" + id,
+									method: "POST",
+									success: function(n) {
+									$(".like_label[data-id=" + id + "]").text(n);
+									}
+								});
+							});
+						</script>
+					</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

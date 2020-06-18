@@ -1,23 +1,14 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>EDIT</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-</head>
 <body>
-  <div class="card col-lg-6 mx-auto mt-5">
+  <div class="card col-lg-6 mx-auto mt-5 content card-color">
     <div class="card-body">
-      <h1>Edit</h1>
+      <h1 class="new">Edit</h1>
       <form action="/renew/<%= @post.id %>" method="post">
-        <p>name:<input type="text" name="name" value="<%= Person.find(@post.person_id).name %>" class="form-control"></p>
-        <p>characteristic:<input type="text" name="characteristic" value="<% @post.face_posts.each do |face_post|%>#<%= Face.find(face_post.face_id).body %><% end %>" class="form-control"></p>
-        <p>make up summary:<input type="text" name="summary" value="<%= @post.summary %>" class="form-control"></p>
-        <p>procedure:<input type="text" name="body" value="<%= @post.body%>"class="form-control"></p>
+        <p class="name">name:<input type="text" name="name" value="<%= Person.find(@post.person_id).name %>" class="form-control"></p>
+        <p class="name">characteristic:<input type="text" name="characteristic" value="<% @post.face_posts.each do |face_post|%>#<%= Face.find(face_post.face_id).body %><% end %>" class="form-control"></p>
+        <p class="name">point:<input type="text" name="summary" value="<%= @post.summary %>" class="form-control"></p>
+        <p class="name">procedure:<input type="text" name="body" value="<%= @post.body%>"class="form-control"></p>
         <p><input type="submit" value="編集完了" class="btn btn-dark float-right"><p>
       </form>
     </div>
   </div>
 </body>
-</html>

@@ -1,16 +1,16 @@
 <body>
-  <div class="card col-lg-6 mx-auto mt-5">
+  <div class="card col-lg-6 mx-auto mt-5 content card-color">
     <div class="card-body">
-      <h1>New Post</h1>
+      <h1 class="new">New Post</h1>
       <form action="/new" method="post" enctype="multipart/form-data">
-        <p>name：<input type="text" name="person_name" class="form-control"></p>
-        <p>characteristic：<input type="text" name="characteristic" class="form-control"></p>
-        <p>make up summary：<input type="text" name="summary" class="form-control"></p>
-        <p>procedure：<textarea name="body" cols="40" row="10" class="form-control"></textarea></p>
+        <p class="name">name：<input type="text" name="person_name" class="form-control"></p>
+        <p class="name">characteristic：<input type="text" name="characteristic" class="form-control"></p>
+        <p class="name">point：<input type="text" name="summary" class="form-control"></p>
+        <p class="name">procedure：<textarea name="body" cols="40" row="10" class="form-control"></textarea></p>
         <p>
           <input type="file" name="file" class="form-control-file">
         </p>
-        <p><input type="submit" value="&#xf1d8;" class="btn float-right"></p>
+        <span><input type="submit" value="&#xf1d8;" class="btn float-right like"></span>
       </form>
     </div>
   </div>

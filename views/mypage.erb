@@ -1,34 +1,48 @@
 <body>
-	<h1>My Page</h1>
-	<p><%= current_user.name %></p>
-	<p><a href="/mypage/<%= current_user.id %>/like">いいね</a></p>
+	<h1 class="text-center m-5 top_person">My Page</h1>
+	<h3 class="text-center m-5 top_person">Hello, <%= current_user.name %>!</h3>
+	<h4 class="text-center m-5 top_person"><a href="/mypage/<%= current_user.id %>/like">「いいね」した投稿</a></h4>
 
 	<div class="container-fluid">
 			<div class="row d-flex justify-content-center">
       	<% @posts.each do |post| %>
-					<div class="card col-lg-3 mb-4 mx-5">
+					<div class="card col-lg-3 mb-4 mx-4 content card-color">
 						<div class="card-body">
 							<div class="d-flex justify-content-end align-items-center mt-3">
 								<form action="/delete/<%= post.id %>" method="post">
-									<input type="submit" value="&#xf2ed;" class="btn card-footer-text">
+									<input type="submit" value="&#xf2ed;" class="btn card-footer-text like">
 								</form>
-								<a href="/edit/<%= post.id %>" class="btn card-footer-text"><i class="far fa-edit"></i></a>
+								<a href="/edit/<%= post.id %>" class="btn card-footer-text"><i class="far fa-edit like"></i></a>
 							</div>
-							<p><%= Person.find_by(id: post.person_id).name %></p>
-							<%= User.find_by(id: post.user_id).name %><br>
+							<p class="person mb-0"><%= Person.find_by(id: post.person_id).name %></p>
+							<p class="user item">by <%= User.find_by(id: post.user_id).name %><p>
 							<% unless post.image.empty? %>
 								<p><img class="img-fluid rounded" src="<%= post.image %>"></p>
 							<% end %>
+							<p class="mb-0 item parts">characteristic : </p>
 							<% post.face_posts.each do |face_post| %>
 								<a href="/hashtag/<%= face_post.face_id %>">#<%= Face.find_by(id: face_post.face_id).body %></a>
 							<% end %>
+							<p class="mt-3 mb-0 item parts">point：</p>
 							<p><%= post.summary %></p>
-							<p><%= post.body %></p>
+							<p class="mt-3 mb-0 item parts">process：<p>
+							<p class="mt-0"><%= post.body %></p>
 							<div class="d-flex justify-content-end align-items-center mt-3">
-								<span class="card-footer-text"><%= post.likes.size %></span>
-								<form action="/good/<%= post.id %>" method="post">
-										<input type="submit" value="&#xf004;" class="btn card-footer-text">
-								</form>
+								<span class="like_label btn card-footer-text like" data-id="<%= post.id %>" ><%= post.likes.size %></span>
+									<button class="like_button" data-id="<%= post.id %>"><i class="far fa-heart like"></i></button>
+								<script>
+									$(document).on("click", ".like_button", function(){
+										var id = $(this).data("id");
+
+										$.ajax({
+											url: "/good/" + id,
+											method: "POST",
+											success: function(n) {
+												$(".like_label[data-id=" + id + "]").text(n);
+											}
+										});
+									});
+								</script>
 							</div>
 						</div>
 					</div>
