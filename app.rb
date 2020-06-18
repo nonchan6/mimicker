@@ -17,7 +17,7 @@ before do
   Dotenv.load
   Cloudinary.config do |config|
     config.cloud_name = "dmy4qjhma"
-    config.api_key = "dmy4qjhma"
+    config.api_key = "576871694342781"
     config.api_secret = "Vqm_2pw-J2iUNblzTY0F6IufDP0"
   end
 
