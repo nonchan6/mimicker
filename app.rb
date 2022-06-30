@@ -154,8 +154,8 @@ post '/good/:id' do
     post.likes.create({
       user_id: current_user.id
     })
-  # else
-    # post.likes.find_by(user_id: current_user).destroy
+  else
+    post.likes.find_by(user_id: current_user).destroy
   end
 
   post.likes.size.to_s

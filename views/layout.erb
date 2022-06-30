@@ -15,12 +15,14 @@
 <header class="mb-4 p-3">
   <nav class="text-align-center d-flex justify-content-between">
     <a href="/" class="top">mimicker</a>
+    <% if !current_user.nil? %>
     <span class="nav-center">
 			<a href="/search" class="m-3 icon"><i class="fas fa-search"></i></a>
       <a href="/new" class="m-3 icon"><i class="fas fa-pen"></i></a>
 			<a href="/mypage/<%= session[:user] %>" class="m-3 icon"><i class="fas fa-home"></i></a>
       </span>
-      <a href="/signout" class="signout">signout</a>
+        <a href="/signout" class="signout">signout</a>
+    <% end %>
 	</nav>
 </header>
 <body>

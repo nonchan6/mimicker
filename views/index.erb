@@ -18,11 +18,16 @@
 							<a href="/post/<%= all_post.id %>" class="process">more</a>
 							<div class="d-flex justify-content-end align-items-center mt-3">
 									<span class="like_label btn card-footer-text like_size" data-id="<%= all_post.id %>"><%= all_post.likes.size %></span>
-									<button class="like_button" data-id="<%= all_post.id %>"><i class="far fa-heart like"></i></button>
+									<button class="like_button" data-id="<%= all_post.id %>">
+										<% if all_post.likes.find_by(user_id: current_user.id).nil? %>
+											<i class="far fa-heart like"></i>
+										<% else %>
+											<i class="fa fa-heart"></i>
+										<% end %>
+									</button>
 								<script>
 									$(document).on("click", ".like_button", function(){
 										var id = $(this).data("id");
-
 										$.ajax({
 											url: "/good/" + id,
 											method: "POST",
