@@ -75,6 +75,10 @@ button{
   color: #393e46;
 }
 
+.after_like{
+  color: #ff0000;
+}
+
 .name {
   font-family: 'Nunito', sans-serif;
   color: #393e46;

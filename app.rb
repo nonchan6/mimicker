@@ -132,7 +132,7 @@ get '/search' do
 end
 
 post '/search' do
-  if Person.find_by(name: params[:person]).nil? ||Post.find_by(person_id: Person.find_by(name: params[:person]).id).nil?
+  if Person.find_by(name: params[:person]).nil? || Post.find_by(person_id: Person.find_by(name: params[:person]).id).nil?
     @person_posts = Post.none
   else
     @person_posts = Post.where(person_id: Person.find_by(name: params[:person])).order('id desc')

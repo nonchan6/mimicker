@@ -1,46 +1,55 @@
 <body>
-		<div class="container-fluid">
-			<div class="row d-flex justify-content-center">
-					<% @all_posts.each do |all_post| %>
-					 <div class="card col-lg-3 mb-4 mx-4 content card-color">
-						<div class="card-body">
-							<p class="person mb-0"><%= Person.find_by(id: all_post.person_id).name %></p>
-							<p class="user item">by <%= User.find_by(id: all_post.user_id).name %></p>
-							<% unless all_post.image.empty? %>
-								<p><img class="img-fluid rounded" src="<%= all_post.image %>"></p>
-							<% end %>
-							<p class="mb-0 item parts">characteristic : </p>
-							<% all_post.face_posts.each do |face_post| %>
-								<a href="/hashtag/<%= face_post.face_id %>">#<%= Face.find_by(id: face_post.face_id).body %></a>
-							<% end %>
-							<p class="mt-3 mb-0 item parts">point：</p>
-							<p><%= all_post.summary %></p>
-							<a href="/post/<%= all_post.id %>" class="process">more</a>
-							<div class="d-flex justify-content-end align-items-center mt-3">
-									<span class="like_label btn card-footer-text like_size" data-id="<%= all_post.id %>"><%= all_post.likes.size %></span>
-									<button class="like_button" data-id="<%= all_post.id %>">
-										<% if all_post.likes.find_by(user_id: current_user.id).nil? %>
-											<i class="far fa-heart like"></i>
-										<% else %>
-											<i class="fa fa-heart"></i>
-										<% end %>
-									</button>
-								<script>
-									$(document).on("click", ".like_button", function(){
-										var id = $(this).data("id");
-										$.ajax({
-											url: "/good/" + id,
-											method: "POST",
-											success: function(n) {
-												$(".like_label[data-id=" + id + "]").text(n);
-											}
-										});
-									});
-								</script>
-							</div>
+	<div class="container-fluid">
+		<div class="row d-flex justify-content-center">
+			<% @all_posts.each do |all_post| %>
+				<div class="card col-lg-3 mb-4 mx-4 content card-color">
+					<div class="card-body">
+						<p class="person mb-0"><%= Person.find_by(id: all_post.person_id).name %></p>
+						<p class="user item">by <%= User.find_by(id: all_post.user_id).name %></p>
+						<% unless all_post.image.empty? %>
+							<p><img class="img-fluid rounded" src="<%= all_post.image %>"></p>
+						<% end %>
+						<p class="mb-0 item parts">characteristic : </p>
+						<% all_post.face_posts.each do |face_post| %>
+							<a href="/hashtag/<%= face_post.face_id %>">#<%= Face.find_by(id: face_post.face_id).body %></a>
+						<% end %>
+						<p class="mt-3 mb-0 item parts">point：</p>
+						<p><%= all_post.summary %></p>
+						<a href="/post/<%= all_post.id %>" class="process">more</a>
+						<div class="d-flex justify-content-end align-items-center mt-3">
+							<span class="like_label btn card-footer-text like_size" data-id="<%= all_post.id %>"><%= all_post.likes.size %></span>
+							<button class="like_button" data-id="<%= all_post.id %>">
+								<% if current_user.likes.find_by(post_id: all_post.id) %>
+									<i class="fa fa-heart after_like"></i>
+								<% else %>
+									<i class="far fa-heart like"></i>
+								<% end %>
+							</button>
 						</div>
-					 </div>
-					<% end %>
-			</div>
+					</div>
+				</div>
+			<% end %>
 		</div>
+	</div>
+	<script>
+		$(document).on("click", ".like_button", function(){
+			var id = $(this).data("id");
+			$.ajax({
+				url: "/good/" + id,
+				method: "POST",
+				success: function(n) {
+					// 色は変わるが縁にはならん
+					$(".like_label[data-id=" + id + "]").text(n);
+					if($(".like_button[data-id="+ id + "] i").hasClass("after_like")){
+						$(".like_button[data-id="+ id + "] i").removeClass('after_like');
+						$(".like_button[data-id="+ id + "] i").addClass('like');
+					}
+					else{
+						$(".like_button[data-id="+ id + "] i").removeClass('like');
+						$(".like_button[data-id="+ id + "] i").addClass('after_like');
+					}
+				}
+			});
+		});
+	</script>
 </body>
