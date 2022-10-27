@@ -1,6 +1,6 @@
 <body>
   <h1 class="text-center m-5 top_person">いいね一覧</h1>
-  <div class="container-fluid">
+  <div class="container">
 	  <div class="row d-flex justify-content-center">
       <% @user_likes.each do |user_like| %>
         <div class="card col-lg-3 mb-4 mx-4 content card-color">
@@ -8,7 +8,7 @@
             <p class="person mb-0"><%= Person.find(Post.find(user_like.post_id).person_id).name %></p>
             <p class="user item">by <%= User.find(Post.find(user_like.post_id).user_id).name %></p>
             <% unless Post.find(user_like.post_id).image.empty? %>
-			        <p><img class="img-fluid rounded" src="<%= Post.find(user_like.post_id).image %>"></p>
+			        <p><img class="img-fluid rounded mx-auto d-block" src="<%= Post.find(user_like.post_id).image %>"></p>
 	          <% end %>
             <p class="mb-0 item parts">characteristic : </p>
             <% Post.find(user_like.post_id).face_posts.each do |face_post| %>
@@ -19,20 +19,13 @@
             <a href="/post/<%= Post.find(user_like.post_id).id %>" class="process">more</a>
             <div class="d-flex justify-content-end align-items-center mt-3">
               <span class="like_label btn card-footer-text like" data-id="<%= Post.find(user_like.post_id).id %>" ><%= Post.find(user_like.post_id).likes.size %></span>
-									<button class="like_button" data-id="<%= Post.find(user_like.post_id).id %>"><i class="far fa-heart like"></i></button>
-								<script>
-									$(document).on("click", ".like_button", function(){
-										var id = $(this).data("id");
-
-										$.ajax({
-											url: "/good/" + id,
-											method: "POST",
-											success: function(n) {
-												$(".like_label[data-id=" + id + "]").text(n);
-											}
-										});
-									});
-								</script>
+									<button class="like_button" data-id="<%= Post.find(user_like.post_id).id %>">
+									  <% if current_user.likes.find_by(post_id: user_like.post_id) %>
+								    	<i class="fa-solid fa-heart"></i>
+								    <% else %>
+									    <i class="fa-regular fa-heart"></i>
+								    <% end %>
+									</button>
               </form>
             </div>
           </div>
@@ -40,4 +33,25 @@
       <% end %>
     </div>
   </div>
+  <script>
+		$(document).on("click", ".like_button", function(){
+			var id = $(this).data("id");
+
+			$.ajax({
+				url: "/good/" + id,
+				method: "POST",
+				success: function(n) {
+					$(".like_label[data-id=" + id + "]").text(n);
+					if($(".like_button[data-id="+ id + "] i").hasClass("fa-solid")){
+						$(".like_button[data-id="+ id + "] i").removeClass('fa-solid');
+						$(".like_button[data-id="+ id + "] i").addClass('fa-regular');
+					}
+					else{
+						$(".like_button[data-id="+ id + "] i").removeClass('fa-regular');
+						$(".like_button[data-id="+ id + "] i").addClass('fa-solid');
+					}
+				}
+			});
+		});
+	</script>
 </body>

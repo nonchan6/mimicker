@@ -1,5 +1,5 @@
 <body>
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row d-flex justify-content-center">
 			<% @all_posts.each do |all_post| %>
 				<div class="card col-lg-3 mb-4 mx-4 content card-color">
@@ -7,7 +7,7 @@
 						<p class="person mb-0"><%= Person.find_by(id: all_post.person_id).name %></p>
 						<p class="user item">by <%= User.find_by(id: all_post.user_id).name %></p>
 						<% unless all_post.image.empty? %>
-							<p><img class="img-fluid rounded" src="<%= all_post.image %>"></p>
+							<img class="img-fluid rounded mx-auto d-block" src="<%= all_post.image %>">
 						<% end %>
 						<p class="mb-0 item parts">characteristic : </p>
 						<% all_post.face_posts.each do |face_post| %>
@@ -20,9 +20,9 @@
 							<span class="like_label btn card-footer-text like_size" data-id="<%= all_post.id %>"><%= all_post.likes.size %></span>
 							<button class="like_button" data-id="<%= all_post.id %>">
 								<% if current_user.likes.find_by(post_id: all_post.id) %>
-									<i class="fa fa-heart after_like"></i>
+									<i class="fa-solid fa-heart"></i>
 								<% else %>
-									<i class="far fa-heart like"></i>
+									<i class="fa-regular fa-heart"></i>
 								<% end %>
 							</button>
 						</div>
@@ -38,15 +38,14 @@
 				url: "/good/" + id,
 				method: "POST",
 				success: function(n) {
-					// 色は変わるが縁にはならん
 					$(".like_label[data-id=" + id + "]").text(n);
-					if($(".like_button[data-id="+ id + "] i").hasClass("after_like")){
-						$(".like_button[data-id="+ id + "] i").removeClass('after_like');
-						$(".like_button[data-id="+ id + "] i").addClass('like');
+					if($(".like_button[data-id="+ id + "] i").hasClass("fa-solid")){
+						$(".like_button[data-id="+ id + "] i").removeClass('fa-solid');
+						$(".like_button[data-id="+ id + "] i").addClass('fa-regular');
 					}
 					else{
-						$(".like_button[data-id="+ id + "] i").removeClass('like');
-						$(".like_button[data-id="+ id + "] i").addClass('after_like');
+						$(".like_button[data-id="+ id + "] i").removeClass('fa-regular');
+						$(".like_button[data-id="+ id + "] i").addClass('fa-solid');
 					}
 				}
 			});
