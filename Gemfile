@@ -9,6 +9,7 @@ gem 'sinatra-activerecord'
 gem 'cloudinary'
 gem 'bcrypt'
 gem "dotenv"
+gem "puma"
 
 group :development do
   gem 'sqlite3', '~>1.4.1'
