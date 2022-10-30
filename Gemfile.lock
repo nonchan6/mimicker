@@ -115,7 +115,7 @@ DEPENDENCIES
   debase
   dotenv
   fastri
-  pg (= 0.21.0)
+  pg
   pry
   rake
   rcodetools
@@ -128,7 +128,7 @@ DEPENDENCIES
   sqlite3 (~> 1.4.1)
 
 RUBY VERSION
-   ruby 2.6.2p47
+   ruby 3.0.0p0
 
 BUNDLED WITH
    2.2.17
